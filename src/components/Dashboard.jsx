@@ -21,7 +21,7 @@ const Dashboard = ({ setCurrentView }) => {
     setIsLoading(true);
     setError(null);
     try {
-      const response = await fetch(`http://localhost:8000/api/farm-planner?location=${encodeURIComponent(activeLocation)}`);
+      const response = await fetch(`https://anndaataa-backend.onrender.com/api/farm-planner?location=${encodeURIComponent(activeLocation)}`);
       if (!response.ok) {
         throw new Error('Failed to retrieve personalized farm profiles');
       }
@@ -55,7 +55,7 @@ const Dashboard = ({ setCurrentView }) => {
     const delayDebounceFn = setTimeout(async () => {
       setIsSearchingLocation(true);
       try {
-        const response = await fetch(`http://localhost:8000/api/locations?q=${encodeURIComponent(editSearch)}`);
+        const response = await fetch(`https://anndaataa-backend.onrender.com/api/locations?q=${encodeURIComponent(editSearch)}`);
         if (response.ok) {
           const data = await response.json();
           setLocationResults(data);

@@ -23,7 +23,7 @@ const AuthModal = ({ isOpen, onClose }) => {
     const delayDebounceFn = setTimeout(async () => {
       setIsSearchingLocation(true);
       try {
-        const response = await fetch(`http://localhost:8000/api/locations?q=${encodeURIComponent(location)}`);
+        const response = await fetch(`https://anndaataa-backend.onrender.com/api/locations?q=${encodeURIComponent(location)}`);
         if (response.ok) {
           const data = await response.json();
           setLocationResults(data);

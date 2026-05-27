@@ -107,7 +107,7 @@ const Scanner = ({ setCurrentView }) => {
     formData.append('file', fileToUpload);
 
     try {
-      const response = await fetch('http://localhost:8000/api/analyze-crop', {
+      const response = await fetch('https://anndaataa-backend.onrender.com/api/analyze-crop', {
         method: 'POST',
         body: formData,
       });

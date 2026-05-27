@@ -15,8 +15,8 @@ const Market = () => {
     setError(null);
     try {
       const [mandiRes, kvkRes] = await Promise.all([
-        fetch('http://localhost:8000/api/mandi-prices'),
-        fetch(`http://localhost:8000/api/kvk-locations?treatment=${encodeURIComponent(recommendedTreatment?.chemical || '')}`)
+        fetch('https://anndaataa-backend.onrender.com/api/mandi-prices'),
+        fetch(`https://anndaataa-backend.onrender.com/api/kvk-locations?treatment=${encodeURIComponent(recommendedTreatment?.chemical || '')}`)
       ]);
 
       if (!mandiRes.ok || !kvkRes.ok) {
