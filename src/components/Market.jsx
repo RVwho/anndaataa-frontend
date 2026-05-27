@@ -3,12 +3,20 @@ import { MapPin, Navigation, Sprout, TrendingUp, TrendingDown, Lock, CheckCircle
 import { useAuth } from '../context/AuthContext';
 
 const Market = () => {
-  const { user, isAuthenticated, openAuthModal, recommendedTreatment, setRecommendedTreatment, t } = useAuth();
+  const { user, isAuthenticated, openAuthModal, recommendedTreatment, setRecommendedTreatment, language, t } = useAuth();
   const [activeTab, setActiveTab] = useState('kvk');
   const [mandiPrices, setMandiPrices] = useState([]);
   const [kvkLocations, setKvkLocations] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [showBanner, setShowBanner] = useState(true);
+
+  const cropTranslations = {
+    'Wheat (Kanak)': { en: 'Wheat (Gehun)', hi: 'गेहूँ' },
+    'Paddy (Basmati)': { en: 'Paddy (Basmati)', hi: 'धान (बासमती)' },
+    'Mustard Seeds': { en: 'Mustard Seeds', hi: 'सरसों' },
+    'Tomato (Tamatar)': { en: 'Tomato (Tamatar)', hi: 'टमाटर' }
+  };
 
   const fetchMarketData = async () => {
     setIsLoading(true);
@@ -62,15 +70,23 @@ const Market = () => {
 
   return (
     <div className="flex-1 overflow-y-auto p-4 flex flex-col">
-      <div className="bg-emerald-50 border border-emerald-100 rounded-2xl p-4 flex items-start gap-3 mb-6 animate-in slide-in-from-top duration-300">
-        <div className="bg-emerald-500/20 text-emerald-800 p-2 rounded-xl">
-          <CheckCircle size={20} />
+      {showBanner && (
+        <div className="bg-emerald-50 border border-emerald-100 rounded-2xl p-4 pr-10 flex items-start gap-3 mb-6 animate-in slide-in-from-top duration-300 relative">
+          <button
+            onClick={() => setShowBanner(false)}
+            className="absolute top-4 right-4 p-1.5 hover:bg-emerald-100/80 text-emerald-800 rounded-full transition-colors shrink-0"
+          >
+            <X size={18} />
+          </button>
+          <div className="bg-emerald-500/20 text-emerald-800 p-2 rounded-xl">
+            <CheckCircle size={20} />
+          </div>
+          <div>
+            <h3 className="text-sm font-bold text-emerald-800">{t('Market Access Unlocked')}</h3>
+            <p className="text-xs text-emerald-600/90 mt-0.5">{t('Showing customized local mandi prices and KVK services for')} {user.location}.</p>
+          </div>
         </div>
-        <div>
-          <h3 className="text-sm font-bold text-emerald-800">{t('Market Access Unlocked')}</h3>
-          <p className="text-xs text-emerald-600/90 mt-0.5">{t('Showing customized local mandi prices and KVK services for')} {user.location}.</p>
-        </div>
-      </div>
+      )}
 
       {recommendedTreatment?.chemical && (
         <div className="bg-amber-50/70 border border-amber-250 rounded-2xl p-5 flex flex-col gap-4 mb-6 animate-in slide-in-from-top duration-300 relative shadow-sm">
@@ -181,7 +197,12 @@ const Market = () => {
                   <div className="w-10 h-10 bg-slate-50 rounded-full flex items-center justify-center">
                     <Sprout size={18} className="text-emerald-600" />
                   </div>
-                  <h3 className="font-bold text-slate-805 text-sm">{crop.crop}</h3>
+                  <h3 className="font-bold text-slate-805 text-sm">
+                    {cropTranslations[crop.crop]
+                      ? (language === 'hi' ? cropTranslations[crop.crop].hi : cropTranslations[crop.crop].en)
+                      : crop.crop
+                    }
+                  </h3>
                 </div>
                 <div className="flex items-center gap-4">
                   <div className="flex flex-col items-end">
